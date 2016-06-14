@@ -1,0 +1,12 @@
+{
+  "name": "restful",
+  "description": "",
+  "main": "app.js",
+  "license": "ISC",
+  "dependencies": {
+    "express": "~4.13.4",
+    "body-parser": "~1.15.1",
+    "sequelize": "4.0.0-0",
+    "mysql": "2.11.0"
+  }
+}
