@@ -1,6 +1,6 @@
 module.exports = function(sequelize, DataTypes) {
 
-    var user = sequelize.define('user', {
+    var User = sequelize.define('user', {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
@@ -49,5 +49,5 @@ module.exports = function(sequelize, DataTypes) {
         }
     });
 
-    return user;
+    return User;
 };

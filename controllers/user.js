@@ -1,7 +1,7 @@
 var express     = require('express'),
     router      = express.Router(),
     sequelize   = require('../models/mysql'),
-    User        = sequelize.import('../models/mysql/user');
+    User        = sequelize.import('../models/mysql/User');
 
 // Middleware
 function isAuthenticated(request, result, next) {
