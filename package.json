@@ -1,7 +1,7 @@
 {
   "name": "restful",
   "description": "Express RESTful API",
-  "main": "app.js",
+  "main": "server.js",
   "license": "ISC",
   "repository" : {
     "type": "git",
