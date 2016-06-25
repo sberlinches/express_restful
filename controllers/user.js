@@ -6,12 +6,11 @@ var express         = require('express'),
 
 /*
 User.find({
-    where: { username: 'admin' }
+    where: { email: 'admin@example.com' }
 })
 .then(function(user) {
     if(!user) {
         User.build({
-            username: 'admin',
             email: 'admin@example.com',
             password: 'admin',
             firstName: 'Administrator'
