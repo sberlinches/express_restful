@@ -1,11 +1,11 @@
 {
-  "name": "restful",
-  "description": "Express RESTful API",
+  "name": "restful-api",
+  "description": "Node RESTful API",
   "main": "server.js",
   "license": "ISC",
   "repository" : {
     "type": "git",
-    "url": "git://github.com/sberlinches/express_restful.git"
+    "url": "git://github.com/sberlinches/restful-api.git"
   },
   "dependencies": {
     "express": "~4.13.4",
