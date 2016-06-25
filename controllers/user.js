@@ -1,21 +1,24 @@
-var express     = require('express'),
-    router      = express.Router(),
-    sequelize   = require('../models/mysql'),
-    User        = sequelize.import('../models/mysql/User');
+var express         = require('express'),
+    router          = express.Router(),
+    isAuthenticated = require('../middlewares/isAuthenticated'),
+    sequelize       = require('../models/mysql'),
+    User            = sequelize.import('../models/mysql/User');
 
-// Middleware
-function isAuthenticated(request, result, next) {
-
-    console.log('User middleware');
-
-    //if (request.user.authenticated) { // TODO
-    if (1 == 1) {
-        console.log('You are in!');
-        next();
-    } else {
-        result.status(403).send('Forbidden'); // TODO
+/*
+User.find({
+    where: { username: 'admin' }
+})
+.then(function(user) {
+    if(!user) {
+        User.build({
+            username: 'admin',
+            email: 'admin@example.com',
+            password: 'admin',
+            firstName: 'Administrator'
+        }).save();
     }
-}
+});
+*/
 
 // Routes
 router.route('/users')
