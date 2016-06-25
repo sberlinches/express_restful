@@ -1,10 +1,12 @@
+var bcrypt = require('bcrypt');
+
 module.exports = function(sequelize, DataTypes) {
 
     var User = sequelize.define('user', {
         id: {
-            type: DataTypes.UUID,
+            type: DataTypes.INTEGER,
             primaryKey: true,
-            defaultValue: DataTypes.UUIDV4
+            autoIncrement: true
         },
         email: {
             type: DataTypes.STRING(50),
@@ -14,6 +16,11 @@ module.exports = function(sequelize, DataTypes) {
             validate: {
                 isEmail: true
             }
+        },
+        password: {
+            type: DataTypes.STRING(255),
+            field: 'password',
+            allowNull: false
         },
         firstName: {
             type: DataTypes.STRING(50),
@@ -46,7 +53,28 @@ module.exports = function(sequelize, DataTypes) {
                 this.setDataValue('firstName', names.slice(0, -1).join(' '));
                 this.setDataValue('lastName', names.slice(-1).join(' '));
             }
+        },
+        classMethods: {
+            validPassword: function(password, hash, done, user) {
+                bcrypt.compare(password, hash, function(error, isMatch){
+                    if (error) console.log(error);
+                    if (isMatch) {
+                        return done(null, user);
+                    } else {
+                        return done(null, false);
+                    }
+                });
+            },
+            generateHash: function(password) {
+                return bcrypt.hashSync(password, 10);
+            }
         }
+    });
+
+    // Hooks
+    User.beforeCreate(function(user, options, fn) {
+        user.password = this.generateHash(user.password);
+        return fn(null, options);
     });
 
     return User;
