@@ -3,6 +3,10 @@
   "description": "Node RESTful API",
   "main": "server.js",
   "license": "ISC",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
   "repository" : {
     "type": "git",
     "url": "git://github.com/sberlinches/restful-api.git"
