@@ -2,6 +2,7 @@ var https       = require('https'),
     fs          = require('fs'),
     express    	= require('express'),
     bodyParser 	= require('body-parser'),
+    cors        = require('cors'),
     app        	= express(),
     port        = 3443;
 
@@ -9,6 +10,9 @@ var https       = require('https'),
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.raw({ type: 'application/vnd.api+json' }));
+
+// CORS
+app.use(cors());
 
 // Routes
 app.use(require('./controllers'));
