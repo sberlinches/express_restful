@@ -8,6 +8,11 @@ module.exports = function(sequelize, DataTypes) {
             primaryKey: true,
             autoIncrement: true
         },
+        username: {
+            type: DataTypes.STRING(50),
+            field: 'username',
+            allowNull: false
+        },
         email: {
             type: DataTypes.STRING(50),
             field: 'email',
@@ -42,6 +47,14 @@ module.exports = function(sequelize, DataTypes) {
         countryId: {
             type: DataTypes.INTEGER,
             field: 'country_id'
+        },
+        languageId: {
+            type: DataTypes.INTEGER,
+            field: 'language_id'
+        },
+        birthAt: {
+            type: DataTypes.DATE,
+            field: 'birth_at'
         },
         createdAt: {
             type: DataTypes.DATE,
@@ -80,13 +93,13 @@ module.exports = function(sequelize, DataTypes) {
             generateHash: function(password) {
                 return bcrypt.hashSync(password, 10);
             }
+        },
+        hooks: {
+            beforeCreate: function(user, options, fn) {
+                user.password = this.generateHash(user.password);
+                return fn(null, options);
+            }
         }
-    });
-
-    // Hooks
-    User.beforeCreate(function(user, options, fn) {
-        user.password = this.generateHash(user.password);
-        return fn(null, options);
     });
 
     var City    = sequelize.import('City.js'),

@@ -11,6 +11,7 @@ User.find({
 .then(function(user) {
     if(!user) {
         User.build({
+            username: 'admin',
             email: 'admin@example.com',
             password: 'admin',
             firstName: 'Administrator'
