@@ -24,7 +24,10 @@ router.route('/users')
     .get(isAuthenticated, function(request, result) {
 
         User.findAll({
-                where: { deletedAt: null }
+                where: { deletedAt: null },
+                include: [
+                    { all: true }
+                ]
             })
             .then(function(users) {
                 result.send({ data: users });
@@ -49,7 +52,11 @@ router.route('/users')
 router.route('/users/:user_id')
     .get(isAuthenticated, function(request, result) {
 
-        User.findById(request.params.user_id)
+        User.findById(request.params.user_id, {
+                include: [
+                    { all: true }
+                ]
+            })
             .then(function(user) {
                 result.json({ data: user });
             });

@@ -4,7 +4,7 @@ module.exports = function(sequelize, DataTypes) {
 
     var User = sequelize.define('user', {
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.UUID,
             primaryKey: true,
             autoIncrement: true
         },
@@ -30,6 +30,18 @@ module.exports = function(sequelize, DataTypes) {
         lastName: {
             type: DataTypes.STRING(50),
             field: 'last_name'
+        },
+        cityId: {
+            type: DataTypes.INTEGER,
+            field: 'city_id'
+        },
+        stateId: {
+            type: DataTypes.INTEGER,
+            field: 'state_id'
+        },
+        countryId: {
+            type: DataTypes.INTEGER,
+            field: 'country_id'
         },
         createdAt: {
             type: DataTypes.DATE,
@@ -76,6 +88,14 @@ module.exports = function(sequelize, DataTypes) {
         user.password = this.generateHash(user.password);
         return fn(null, options);
     });
+
+    var City    = sequelize.import('City.js'),
+        State   = sequelize.import('State.js'),
+        Country = sequelize.import('Country.js');
+
+    User.belongsTo(City, { foreignKey: 'cityId' });
+    User.belongsTo(State, { foreignKey: 'stateId' });
+    User.belongsTo(Country, { foreignKey: 'countryId' });
 
     return User;
 };

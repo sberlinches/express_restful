@@ -9,7 +9,7 @@ var Sequelize = require('sequelize'),
     },
     define: {
         freezeTableName: true, // Model tableName will be the same as the model name
-        //timestamps: false, // Timestamp attributes (updatedAt, createdAt)
+        timestamps: false, // Timestamp attributes (updatedAt, createdAt)
         paranoid: true, // Don't delete database entries but set the attribute (deletedAt)
         underscored: true // Automatically underscore timestamps fields (updated_at)
     }
