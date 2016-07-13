@@ -14,6 +14,9 @@ router.get('/', function(request, result) {
 
 // Routes
 router.use(require('./user'));
+router.use(require('./city'));
+router.use(require('./state'));
+router.use(require('./country'));
 
 // All controllers are prefixed with '/api'
 router.use('/api', router);
