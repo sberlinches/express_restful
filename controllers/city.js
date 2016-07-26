@@ -14,4 +14,17 @@ router.route('/cities')
             });
     });
 
+router.route('/cities/:city_id')
+    .get(isAuthenticated, function(request, result) {
+
+        City.findById(request.params.city_id, {
+                include: [
+                    { all: true }
+                ]
+            })
+            .then(function(city) {
+                result.json({ data: city });
+            });
+    });
+
 module.exports = router;
