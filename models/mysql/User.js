@@ -36,17 +36,17 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING(50),
             field: 'last_name'
         },
-        cityId: {
+        countryId: {
             type: DataTypes.INTEGER,
-            field: 'city_id'
+            field: 'country_id'
         },
         stateId: {
             type: DataTypes.INTEGER,
             field: 'state_id'
         },
-        countryId: {
+        cityId: {
             type: DataTypes.INTEGER,
-            field: 'country_id'
+            field: 'city_id'
         },
         languageId: {
             type: DataTypes.INTEGER,
@@ -70,7 +70,9 @@ module.exports = function(sequelize, DataTypes) {
         }
     }, {
         getterMethods: {
-            fullName: function(){ return this.firstName + ' ' + this.lastName }
+            fullName: function(){
+                return this.lastName ? this.firstName + ' ' + this.lastName : this.firstName;
+            }
         },
         setterMethods: {
             fullName: function(value) {
