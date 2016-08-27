@@ -26,9 +26,7 @@ router.route('/users')
 
         var options = {
             where: { deletedAt: null },
-            include: [
-                { all: true }
-            ]
+            include: [ { all: true } ]
         };
 
         User.findAll(options)
@@ -60,9 +58,7 @@ router.route('/users/:user_id')
 
         var id = request.params.user_id;
         var options = {
-            include: [
-                { all: true }
-            ]
+            include: [ { all: true } ]
         };
 
         User.findById(id, options)
@@ -71,15 +67,13 @@ router.route('/users/:user_id')
             });
     })
     .put(isAuthenticated, function(request, response) {
-        response.status(200).send({ data: 'put' }); // TODO
+        response.status(200).json({ data: 'put' }); // TODO
     })
     .patch(isAuthenticated, function(request, response) {
 
         var values = request.body;
         var options = {
-            where: {
-                id: request.params.user_id
-            }
+            where: { id: request.params.user_id }
         };
 
         User.update(values, options)
@@ -93,9 +87,7 @@ router.route('/users/:user_id')
     .delete(isAuthenticated, function(request, response) {
 
         var options = {
-            where: {
-                id: request.params.user_id
-            }
+            where: { id: request.params.user_id }
         };
 
         User.destroy(options)

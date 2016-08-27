@@ -7,38 +7,40 @@ var express         = require('express'),
 
 // Routes
 router.route('/states')
-    .get(isAuthenticated, function(request, result) {
+    .get(isAuthenticated, function(request, response) {
 
         State.findAll()
             .then(function(states) {
-                result.send({ data: states });
+                response.status(200).json({ data: states });
             });
     });
 
 router.route('/states/:state_id')
-    .get(isAuthenticated, function(request, result) {
+    .get(isAuthenticated, function(request, response) {
 
-        State.findById(request.params.state_id, {
-                include: [
-                    { all: true }
-                ]
-            })
+        var id = request.params.state_id;
+        var options = {
+            include: [{ all: true }]
+        };
+
+        State.findById(id, options)
             .then(function(state) {
-                result.json({ data: state });
+                response.status(200).json({ data: state });
             });
     });
 
 router.route('/states/:state_id/cities')
-    .get(isAuthenticated, function(request, result) {
+    .get(isAuthenticated, function(request, response) {
 
-        City.findAll({
-                where: { stateId: request.params.state_id },
-                include: [
-                    { all: true }
-                ]
-            })
+
+        var options = {
+            where: { stateId: request.params.state_id },
+            include: [{ all: true }]
+        };
+
+        City.findAll(options)
             .then(function(cities) {
-                result.json({ data: cities });
+                response.status(200).json({ data: cities });
             });
     });
 

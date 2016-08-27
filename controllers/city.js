@@ -6,24 +6,25 @@ var express         = require('express'),
 
 // Routes
 router.route('/cities')
-    .get(isAuthenticated, function(request, result) {
+    .get(isAuthenticated, function(request, response) {
 
         City.findAll()
             .then(function(cities) {
-                result.send({ data: cities });
+                response.status(200).json({ data: cities });
             });
     });
 
 router.route('/cities/:city_id')
-    .get(isAuthenticated, function(request, result) {
+    .get(isAuthenticated, function(request, response) {
 
-        City.findById(request.params.city_id, {
-                include: [
-                    { all: true }
-                ]
-            })
+        var id = request.params.city_id;
+        var options = {
+            include: [{ all: true }]
+        };
+
+        City.findById(id, options)
             .then(function(city) {
-                result.json({ data: city });
+                response.status(200).json({ data: city });
             });
     });
 

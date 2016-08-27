@@ -7,38 +7,39 @@ var express         = require('express'),
 
 // Routes
 router.route('/countries')
-    .get(isAuthenticated, function(request, result) {
+    .get(isAuthenticated, function(request, response) {
 
         Country.findAll()
             .then(function(countries) {
-                result.send({ data: countries });
+                response.status(200).json({ data: countries });
             });
     });
 
 router.route('/countries/:country_id')
-    .get(isAuthenticated, function(request, result) {
+    .get(isAuthenticated, function(request, response) {
 
-        Country.findById(request.params.country_id, {
-                include: [
-                    { all: true }
-                ]
-            })
+        var id = request.params.country_id;
+        var options = {
+            include: [{ all: true }]
+        };
+
+        Country.findById(id, options)
             .then(function(country) {
-                result.json({ data: country });
+                response.status(200).json({ data: country });
             });
     });
 
 router.route('/countries/:country_id/states')
-    .get(isAuthenticated, function(request, result) {
+    .get(isAuthenticated, function(request, response) {
 
-        State.findAll({
-                where: { countryId: request.params.country_id },
-                include: [
-                    { all: true }
-                ]
-            })
+        var options = {
+            where: { countryId: request.params.country_id },
+            include: [{ all: true }]
+        };
+
+        State.findAll(options)
             .then(function(states) {
-                result.json({ data: states });
+                response.status(200).json({ data: states });
             });
     });
 
