@@ -22,75 +22,88 @@ User.find({
 
 // Routes
 router.route('/users')
-    .get(isAuthenticated, function(request, result) {
+    .get(isAuthenticated, function(request, response) {
 
-        User.findAll({
-                where: { deletedAt: null },
-                include: [
-                    { all: true }
-                ]
-            })
+        var options = {
+            where: { deletedAt: null },
+            include: [
+                { all: true }
+            ]
+        };
+
+        User.findAll(options)
             .then(function(users) {
-                result.send({ data: users });
+                response.status(200).json({ data: users });
             });
     })
-    .post(isAuthenticated, function(request, result) {
+    .post(isAuthenticated, function(request, response) {
 
-        var user = {
+        var values = {
             firstName: request.query.first_name,
             email: request.query.email
         };
+        var options = {
+            isNewRecord:true
+        };
 
-        User.create(user, {isNewRecord:true})
+        User.create(values, options)
             .then(function(user){
-                result.json({ data: user });
+                response.status(201).json({ data: user });
             })
             .catch(function(error){
-                result.json({ errors: error });
+                response.status(400).json({ errors: error });
             });
     });
 
 router.route('/users/:user_id')
-    .get(isAuthenticated, function(request, result) {
+    .get(isAuthenticated, function(request, response) {
 
-        User.findById(request.params.user_id, {
-                include: [
-                    { all: true }
-                ]
-            })
+        var id = request.params.user_id;
+        var options = {
+            include: [
+                { all: true }
+            ]
+        };
+
+        User.findById(id, options)
             .then(function(user) {
-                result.json({ data: user });
+                response.status(200).json({ data: user });
             });
     })
-    .put(isAuthenticated, function(request, result) {
-        result.send({ data: 'put' }); // TODO
+    .put(isAuthenticated, function(request, response) {
+        response.status(200).send({ data: 'put' }); // TODO
     })
-    .patch(isAuthenticated, function(request, result) {
+    .patch(isAuthenticated, function(request, response) {
 
-        User.update({
-                firstName: 'changed'
-            },
-            {
-                where: { id: request.params.user_id }
-            })
+        var values = request.body;
+        var options = {
+            where: {
+                id: request.params.user_id
+            }
+        };
+
+        User.update(values, options)
             .then(function () {
-                result.json({ data: 'updated partially user id: ' + request.params.user_id });
+                response.status(200).json({ data: 'updated partially user id: ' + request.params.user_id });
             })
             .catch(function(error){
-                result.json({ errors: error });
+                response.status(400).json({ errors: error });
             });
     })
-    .delete(isAuthenticated, function(request, result) {
-        User.destroy({
-                where: {
-                    id: request.params.user_id
-                }
-            })
+    .delete(isAuthenticated, function(request, response) {
+
+        var options = {
+            where: {
+                id: request.params.user_id
+            }
+        };
+
+        User.destroy(options)
             .then(function () {
-                result.json({ data: 'Deleted user id: ' + request.params.user_id });
+                response.status(200).json({ data: 'Deleted user id: ' + request.params.user_id });
             })
             .catch(function(error){
-                result.json({ errors: error });
+                response.status(400).json({ errors: error });
             });
     });
 
