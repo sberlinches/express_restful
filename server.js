@@ -1,3 +1,5 @@
+require('./extensions.js');
+
 var https       = require('https'),
     fs          = require('fs'),
     express    	= require('express'),

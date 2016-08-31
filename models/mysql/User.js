@@ -109,16 +109,19 @@ module.exports = function(sequelize, DataTypes) {
             }
         }
     }, {
-        getterMethods: {
-            fullName: function() {
-                return this.lastName ? this.firstName + ' ' + this.lastName : this.firstName;
-            }
-        },
+        getterMethods: {},
         setterMethods: {
-            fullName: function(value) {
-                var names = value.split(' ');
-                this.setDataValue('firstName', names.slice(0, -1).join(' '));
-                this.setDataValue('lastName', names.slice(-1).join(' '));
+            username: function(value) {
+                this.setDataValue('username', (value != null)? value.toLowerCase(): value);
+            },
+            email: function(value) {
+                this.setDataValue('email', (value != null)? value.toLowerCase(): value);
+            },
+            firstName: function(value) {
+                this.setDataValue('firstName', (value != null)? value.capitalize(): value);
+            },
+            lastName: function(value) {
+                this.setDataValue('lastName', (value != null)? value.capitalize(): value);
             }
         },
         classMethods: {
