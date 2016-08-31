@@ -9,68 +9,108 @@ module.exports = function(sequelize, DataTypes) {
             autoIncrement: true
         },
         username: {
-            type: DataTypes.STRING(50),
+            type: DataTypes.STRING(30),
             field: 'username',
-            allowNull: false
+            allowNull: false,
+            validate: {
+                notEmpty: true,
+                len: [2, 30]
+            }
         },
         email: {
-            type: DataTypes.STRING(50),
+            type: DataTypes.STRING(254),
             field: 'email',
             allowNull: false,
             unique: true,
             validate: {
-                isEmail: true
+                isEmail: true,
+                notEmpty: true,
+                len: [0, 254]
             }
         },
         password: {
-            type: DataTypes.STRING(255),
+            type: DataTypes.STRING(60),
             field: 'password',
             allowNull: false
         },
         firstName: {
-            type: DataTypes.STRING(50),
+            type: DataTypes.STRING(30),
             field: 'first_name',
-            allowNull: false
+            allowNull: false,
+            validate: {
+                isAlpha: true,
+                notEmpty: true,
+                len: [0, 30]
+            }
         },
         lastName: {
-            type: DataTypes.STRING(50),
-            field: 'last_name'
+            type: DataTypes.STRING(30),
+            field: 'last_name',
+            validate: {
+                isAlpha: true,
+                notEmpty: true,
+                len: [0, 30]
+            }
         },
         countryId: {
             type: DataTypes.INTEGER,
-            field: 'country_id'
+            field: 'country_id',
+            validate: {
+                isInt: true
+            }
         },
         stateId: {
             type: DataTypes.INTEGER,
-            field: 'state_id'
+            field: 'state_id',
+            validate: {
+                isInt: true
+            }
         },
         cityId: {
             type: DataTypes.INTEGER,
-            field: 'city_id'
+            field: 'city_id',
+            validate: {
+                isInt: true
+            }
         },
         languageId: {
             type: DataTypes.INTEGER,
-            field: 'language_id'
+            field: 'language_id',
+            validate: {
+                isInt: true
+            }
         },
         birthAt: {
             type: DataTypes.DATE,
-            field: 'birth_at'
+            field: 'birth_at',
+            validate: {
+                isDate: true
+            }
         },
         createdAt: {
             type: DataTypes.DATE,
-            field: 'created_at'
+            field: 'created_at',
+            validate: {
+                isDate: true
+            }
         },
         updatedAt: {
             type: DataTypes.DATE,
-            field: 'updated_at'
+            field: 'updated_at',
+            validate: {
+                isDate: true
+            }
         },
         deletedAt: {
             type: DataTypes.DATE,
-            field: 'deleted_at'
+            field: 'deleted_at',
+            validate: {
+                isDate: true
+            }
         }
     }, {
         getterMethods: {
-            fullName: function(){
+            fullName: function() {
                 return this.lastName ? this.firstName + ' ' + this.lastName : this.firstName;
             }
         },
