@@ -26,6 +26,7 @@ router.route('/users')
 
         var options = {
             where: { deletedAt: null },
+            attributes: { exclude: ['password'] },
             include: [ { all: true } ]
         };
 
@@ -58,6 +59,7 @@ router.route('/users/:user_id')
 
         var id = request.params.user_id;
         var options = {
+            attributes: { exclude: ['password'] },
             include: [ { all: true } ]
         };
 
