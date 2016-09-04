@@ -51,7 +51,7 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING(30),
             field: 'last_name',
             validate: {
-                isAlpha: true,
+                //isAlpha: true, // TODO: Accept letters and blank spaces "lastname1 lastname2"
                 notEmpty: true,
                 len: [0, 30]
             }
