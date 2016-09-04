@@ -37,10 +37,7 @@ router.route('/users')
     })
     .post(isAuthenticated, function(request, response) {
 
-        var values = {
-            firstName: request.query.first_name,
-            email: request.query.email
-        };
+        var values = request.body;
         var options = {
             isNewRecord:true
         };
@@ -79,8 +76,8 @@ router.route('/users/:user_id')
         };
 
         User.update(values, options)
-            .then(function () {
-                response.status(200).json({ data: 'updated partially user id: ' + request.params.user_id });
+            .then(function(user) {
+                response.status(200).json({ data: user });
             })
             .catch(function(error){
                 response.status(400).json({ errors: error });
@@ -93,8 +90,8 @@ router.route('/users/:user_id')
         };
 
         User.destroy(options)
-            .then(function () {
-                response.status(200).json({ data: 'Deleted user id: ' + request.params.user_id });
+            .then(function(user) {
+                response.status(200).json({ data: user });
             })
             .catch(function(error){
                 response.status(400).json({ errors: error });
