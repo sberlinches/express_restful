@@ -145,7 +145,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         hooks: {
             afterValidate: function(user, options) {
-                user.password = this.generateHash(user.password);
+                if(user.password) user.password = this.generateHash(user.password);
             }
         }
     });
