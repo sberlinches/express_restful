@@ -32,7 +32,10 @@ module.exports = function(sequelize, DataTypes) {
         password: {
             type: DataTypes.STRING(60),
             field: 'password',
-            allowNull: false
+            allowNull: false,
+            validate: {
+                len: [4, 30]
+            }
         },
         firstName: {
             type: DataTypes.STRING(30),
@@ -141,9 +144,8 @@ module.exports = function(sequelize, DataTypes) {
             }
         },
         hooks: {
-            beforeCreate: function(user, options, fn) {
+            afterValidate: function(user, options) {
                 user.password = this.generateHash(user.password);
-                return fn(null, options);
             }
         }
     });
