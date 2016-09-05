@@ -91,7 +91,7 @@ router.route('/users/:user_id')
 
         User.destroy(options)
             .then(function(user) {
-                response.status(200).json({ data: user });
+                response.status(204).json({ data: user });
             })
             .catch(function(error){
                 response.status(400).json({ errors: error });
