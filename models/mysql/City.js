@@ -16,6 +16,9 @@ module.exports = function(sequelize, DataTypes) {
             field: 'state_id',
             allowNull: false
         }
+    },
+    {
+        timestamps: false
     });
 
     return City;
