@@ -84,7 +84,7 @@ router.route('/users/:user_id')
             var values = request.body;
             var options = {
                 where: { id: request.params.user_id },
-                returning: true
+                returning: true // Return the affected rows (only for postgres)
             };
 
             User.update(values, options)
