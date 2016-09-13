@@ -85,7 +85,7 @@ module.exports = function(sequelize, DataTypes) {
             }
         },
         birthAt: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             field: 'birth_at',
             validate: {
                 isDate: true
