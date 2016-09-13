@@ -1,5 +1,5 @@
-var Sequelize = require('sequelize'),
-    sequelize = new Sequelize('application', 'application_user', 'application_password', {
+var Sequelize = require('sequelize');
+var sequelize = new Sequelize('application', 'application_user', 'application_password', {
     host: 'localhost',
     dialect: 'mysql',
     pool: {
@@ -10,8 +10,7 @@ var Sequelize = require('sequelize'),
     define: {
         freezeTableName: true, // Model tableName will be the same as the model name
         timestamps: true, // Add timestamp attributes (updatedAt, createdAt, deletedAt)
-        paranoid: true, // Don't delete database entries but set the attribute (deletedAt)
-        underscored: true // Automatically underscore timestamps fields (updated_at, created_at, deleted_at)
+        paranoid: true // Don't delete database entries but set the attribute (deletedAt)
     }
 });
 
