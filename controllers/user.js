@@ -36,18 +36,23 @@ router.route('/users')
     })
     .post(isAuthenticated, function(request, response) {
 
-        var values = request.body;
-        var options = {
-            isNewRecord:true
-        };
+        if(Object.keys(request.body).length) {
 
-        User.create(values, options)
-            .then(function(user){
-                response.status(201).json({ data: user });
-            })
-            .catch(function(error){
-                response.status(400).json({ errors: error });
-            });
+            var values = request.body;
+            var options = {
+                isNewRecord: true
+            };
+
+            User.create(values, options)
+                .then(function (user) {
+                    response.status(201).json({data: user});
+                })
+                .catch(function (error) {
+                    response.status(400).json({errors: error});
+                });
+        } else {
+            response.status(400).json({ errors: 'Data not provided' }); // TODO: Constants file
+        }
     });
 
 router.route('/users/:user_id')
@@ -65,22 +70,33 @@ router.route('/users/:user_id')
             });
     })
     .put(isAuthenticated, function(request, response) {
-        response.status(200).json({ data: 'put' }); // TODO
+
+        if(Object.keys(request.body).length) {
+            response.status(200).json({ data: 'put' }); // TODO
+        } else {
+            response.status(400).json({ errors: 'Data not provided' }); // TODO: Constants file
+        }
     })
     .patch(isAuthenticated, function(request, response) {
 
-        var values = request.body;
-        var options = {
-            where: { id: request.params.user_id }
-        };
+        if(Object.keys(request.body).length) {
 
-        User.update(values, options)
-            .then(function(user) {
-                response.status(200).json({ data: user });
-            })
-            .catch(function(error){
-                response.status(400).json({ errors: error });
-            });
+            var values = request.body;
+            var options = {
+                where: { id: request.params.user_id },
+                returning: true
+            };
+
+            User.update(values, options)
+                .then(function(user) {
+                    response.status(200).json({ data: user });
+                })
+                .catch(function(error){
+                    response.status(400).json({ errors: error });
+                });
+        } else {
+            response.status(400).json({ errors: 'Data not provided' }); // TODO: Constants file
+        }
     })
     .delete(isAuthenticated, function(request, response) {
 
