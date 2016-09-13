@@ -25,12 +25,11 @@ router.route('/users')
     .get(isAuthenticated, function(request, response) {
 
         var options = {
-            where: { deletedAt: null },
             attributes: { exclude: ['password'] },
             include: [ { all: true } ]
         };
 
-        User.findAll(options)
+        User.scope('activeUsers').findAll(options)
             .then(function(users) {
                 response.status(200).json({ data: users });
             });

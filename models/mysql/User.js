@@ -113,6 +113,9 @@ module.exports = function(sequelize, DataTypes) {
             }
         }
     }, {
+        scopes: {
+          activeUsers: { where: { deletedAt: null } }
+        },
         getterMethods: {},
         setterMethods: {
             username: function(value) {
