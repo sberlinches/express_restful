@@ -20,6 +20,19 @@ User.find({
 });
 */
 
+var fields = [
+    'username',
+    'email',
+    'password',
+    'firstName',
+    'lastName',
+    'countryId',
+    'stateId',
+    'cityId',
+    'languageId',
+    'birthAt'
+];
+
 // Routes
 router.route('/users')
     .get(isAuthenticated, function(request, response) {
@@ -40,7 +53,7 @@ router.route('/users')
 
             var values = request.body;
             var options = {
-                isNewRecord: true
+                fields: fields
             };
 
             User.create(values, options)
@@ -84,7 +97,7 @@ router.route('/users/:user_id')
             var values = request.body;
             var options = {
                 where: { id: request.params.user_id },
-                returning: true // Return the affected rows (only for postgres)
+                fields: fields
             };
 
             User.update(values, options)
