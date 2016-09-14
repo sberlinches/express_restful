@@ -42,7 +42,7 @@ router.route('/users')
             include: [ { all: true } ]
         };
 
-        User.scope('activeUsers').findAll(options)
+        User.findAll(options)
             .then(function(users) {
                 response.status(200).json({ data: users });
             });
