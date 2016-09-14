@@ -20,7 +20,8 @@ var sequelize = new Sequelize('application', 'application_user', 'application_pa
         // to the current date (when deletion was done). paranoid will only work if
         // timestamps are enabled
         freezeTableName: true
-    }
+    },
+    timezone: 'America/Vancouver'
 });
 
 module.exports = sequelize;
