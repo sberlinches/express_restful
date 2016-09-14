@@ -8,9 +8,18 @@ var sequelize = new Sequelize('application', 'application_user', 'application_pa
         idle: 10000
     },
     define: {
-        freezeTableName: true, // Model tableName will be the same as the model name
-        timestamps: true, // Add timestamp attributes (updatedAt, createdAt, deletedAt)
-        paranoid: true // Don't delete database entries but set the attribute (deletedAt)
+        // Add the timestamp attributes (updatedAt, createdAt, deletedAt)
+        timestamps: true,
+
+        // don't delete database entries but set the newly added attribute deletedAt
+        // to the current date (when deletion was done). paranoid will only work if
+        // timestamps are enabled
+        paranoid: true,
+
+        // don't delete database entries but set the newly added attribute deletedAt
+        // to the current date (when deletion was done). paranoid will only work if
+        // timestamps are enabled
+        freezeTableName: true
     }
 });
 
