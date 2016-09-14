@@ -14,9 +14,9 @@
   "dependencies": {
     "express": "4.14.0",
     "body-parser": "1.15.2",
-    "sequelize": "4.0.0-0",
-    "mysql": "2.11.0",
+    "sequelize": "4.0.0-1",
+    "mysql2": "v1.0.0-rc.13",
     "bcrypt": "0.8.7",
-    "cors": "2.8.0"
+    "cors": "2.8.1"
   }
 }
