@@ -5,13 +5,15 @@ var express         = require('express'),
     Country         = sequelize.import('../models/mysql/Country'),
     State           = sequelize.import('../models/mysql/State');
 
-// Routes
 router.route('/countries')
     .get(isAuthenticated, function(request, response) {
 
         Country.findAll()
-            .then(function(countries) {
-                response.status(200).json({ data: countries });
+            .then(function(data) {
+                response.status(200).json({ data: data });
+            })
+            .catch(function(error) {
+                response.status(400).json({ errors: error });
             });
     });
 
@@ -19,13 +21,13 @@ router.route('/countries/:country_id')
     .get(isAuthenticated, function(request, response) {
 
         var id = request.params.country_id;
-        var options = {
-            include: [{ all: true }]
-        };
 
-        Country.findById(id, options)
-            .then(function(country) {
-                response.status(200).json({ data: country });
+        Country.findById(id)
+            .then(function(data) {
+                response.status(200).json({ data: data });
+            })
+            .catch(function(error) {
+                response.status(400).json({ errors: error });
             });
     });
 
@@ -33,13 +35,15 @@ router.route('/countries/:country_id/states')
     .get(isAuthenticated, function(request, response) {
 
         var options = {
-            where: { countryId: request.params.country_id },
-            include: [{ all: true }]
+            where: { countryId: request.params.country_id }
         };
 
         State.findAll(options)
-            .then(function(states) {
-                response.status(200).json({ data: states });
+            .then(function(data) {
+                response.status(200).json({ data: data });
+            })
+            .catch(function(error) {
+                response.status(400).json({ errors: error });
             });
     });
 

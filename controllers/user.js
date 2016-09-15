@@ -4,22 +4,6 @@ var express         = require('express'),
     sequelize       = require('../models/mysql'),
     User            = sequelize.import('../models/mysql/User');
 
-/*
-User.find({
-    where: { email: 'admin@example.com' }
-})
-.then(function(user) {
-    if(!user) {
-        User.build({
-            username: 'admin',
-            email: 'admin@example.com',
-            password: 'admin',
-            firstName: 'Administrator'
-        }).save();
-    }
-});
-*/
-
 var fields = [
     'username',
     'email',
@@ -33,18 +17,20 @@ var fields = [
     'birthAt'
 ];
 
-// Routes
 router.route('/users')
     .get(isAuthenticated, function(request, response) {
 
         var options = {
             attributes: { exclude: ['password'] },
-            include: [ { all: true } ]
+            include: [{ all: true }]
         };
 
         User.findAll(options)
-            .then(function(users) {
-                response.status(200).json({ data: users });
+            .then(function(data) {
+                response.status(200).json({ data: data });
+            })
+            .catch(function(error){
+                response.status(400).json({ errors: error });
             });
     })
     .post(isAuthenticated, function(request, response) {
@@ -57,11 +43,11 @@ router.route('/users')
             };
 
             User.create(values, options)
-                .then(function (user) {
-                    response.status(201).json({data: user});
+                .then(function(data) {
+                    response.status(201).json({ data: data });
                 })
-                .catch(function (error) {
-                    response.status(400).json({errors: error});
+                .catch(function(error) {
+                    response.status(400).json({ errors: error });
                 });
         } else {
             response.status(400).json({ errors: 'Data not provided' }); // TODO: Constants file
@@ -74,12 +60,15 @@ router.route('/users/:user_id')
         var id = request.params.user_id;
         var options = {
             attributes: { exclude: ['password'] },
-            include: [ { all: true } ]
+            include: [{ all: true }]
         };
 
         User.findById(id, options)
-            .then(function(user) {
-                response.status(200).json({ data: user });
+            .then(function(data) {
+                response.status(200).json({ data: data });
+            })
+            .catch(function(error) {
+                response.status(400).json({ errors: error });
             });
     })
     .put(isAuthenticated, function(request, response) {
@@ -101,10 +90,10 @@ router.route('/users/:user_id')
             };
 
             User.update(values, options)
-                .then(function(user) {
-                    response.status(200).json({ data: user });
+                .then(function(data) {
+                    response.status(200).json({ data: data });
                 })
-                .catch(function(error){
+                .catch(function(error) {
                     response.status(400).json({ errors: error });
                 });
         } else {
@@ -118,10 +107,11 @@ router.route('/users/:user_id')
         };
 
         User.destroy(options)
-            .then(function(user) {
-                response.status(204).json({ data: user });
+            .then(function(data) {
+                console.log(data);
+                response.status(200).json({ data: data });
             })
-            .catch(function(error){
+            .catch(function(error) {
                 response.status(400).json({ errors: error });
             });
     });
