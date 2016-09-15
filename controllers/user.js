@@ -30,7 +30,7 @@ router.route('/users')
                 response.status(200).json({ data: data });
             })
             .catch(function(error){
-                response.status(400).json({ errors: error });
+                response.status(400).json({ error: error });
             });
     })
     .post(isAuthenticated, function(request, response) {
@@ -47,10 +47,10 @@ router.route('/users')
                     response.status(201).json({ data: data });
                 })
                 .catch(function(error) {
-                    response.status(400).json({ errors: error });
+                    response.status(400).json({ error: error });
                 });
         } else {
-            response.status(400).json({ errors: 'Data not provided' }); // TODO: Constants file
+            response.status(400).json({ error: 'Data not provided' }); // TODO: Constants file
         }
     });
 
@@ -68,7 +68,7 @@ router.route('/users/:user_id')
                 response.status(200).json({ data: data });
             })
             .catch(function(error) {
-                response.status(400).json({ errors: error });
+                response.status(400).json({ error: error });
             });
     })
     .put(isAuthenticated, function(request, response) {
@@ -76,7 +76,7 @@ router.route('/users/:user_id')
         if(Object.keys(request.body).length) {
             response.status(200).json({ data: 'put' }); // TODO
         } else {
-            response.status(400).json({ errors: 'Data not provided' }); // TODO: Constants file
+            response.status(400).json({ error: 'Data not provided' }); // TODO: Constants file
         }
     })
     .patch(isAuthenticated, function(request, response) {
@@ -94,10 +94,10 @@ router.route('/users/:user_id')
                     response.status(200).json({ data: data });
                 })
                 .catch(function(error) {
-                    response.status(400).json({ errors: error });
+                    response.status(400).json({ error: error });
                 });
         } else {
-            response.status(400).json({ errors: 'Data not provided' }); // TODO: Constants file
+            response.status(400).json({ error: 'Data not provided' }); // TODO: Constants file
         }
     })
     .delete(isAuthenticated, function(request, response) {
@@ -112,7 +112,7 @@ router.route('/users/:user_id')
                 response.status(200).json({ data: data });
             })
             .catch(function(error) {
-                response.status(400).json({ errors: error });
+                response.status(400).json({ error: error });
             });
     });
 

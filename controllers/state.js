@@ -13,7 +13,7 @@ router.route('/states')
                 response.status(200).json({ data: states });
             })
             .catch(function(error) {
-                response.status(400).json({ errors: error });
+                response.status(400).json({ error: error });
             });
     });
 
@@ -27,7 +27,7 @@ router.route('/states/:state_id')
                 response.status(200).json({ data: data });
             })
             .catch(function(error) {
-                response.status(400).json({ errors: error });
+                response.status(400).json({ error: error });
             });
     });
 
@@ -43,7 +43,7 @@ router.route('/states/:state_id/cities')
                 response.status(200).json({ data: data });
             })
             .catch(function(error) {
-                response.status(400).json({ errors: error });
+                response.status(400).json({ error: error });
             });
     });
 
