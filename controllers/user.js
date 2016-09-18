@@ -1,6 +1,6 @@
 var express         = require('express'),
     router          = express.Router(),
-    isAuthenticated = require('../middlewares/isAuthenticated'),
+    isAuthenticated = require('../middlewares/is-authenticated'),
     sequelize       = require('../models/mysql'),
     User            = sequelize.import('../models/mysql/User');
 
@@ -108,7 +108,6 @@ router.route('/users/:user_id')
 
         User.destroy(options)
             .then(function(data) {
-                console.log(data);
                 response.status(200).json({ data: data });
             })
             .catch(function(error) {

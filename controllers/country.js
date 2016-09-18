@@ -1,6 +1,6 @@
 var express         = require('express'),
     router          = express.Router(),
-    isAuthenticated = require('../middlewares/isAuthenticated'),
+    isAuthenticated = require('../middlewares/is-authenticated'),
     sequelize       = require('../models/mysql'),
     Country         = sequelize.import('../models/mysql/Country'),
     State           = sequelize.import('../models/mysql/State');

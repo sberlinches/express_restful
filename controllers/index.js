@@ -1,6 +1,6 @@
 var express         = require('express'),
     router          = express.Router(),
-    isAuthenticated = require('../middlewares/isAuthenticated');
+    isAuthenticated = require('../middlewares/is-authenticated');
 
 router.route('/')
     .get(isAuthenticated, function(request, response) {
