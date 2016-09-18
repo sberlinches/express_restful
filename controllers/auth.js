@@ -1,6 +1,6 @@
 var express         = require('express'),
     router          = express.Router(),
-    isAuthenticated = require('../middlewares/is-uthenticated'),
+    isAuthenticated = require('../middlewares/is-authenticated'),
     sequelize       = require('../models/mysql'),
     User            = sequelize.import('../models/mysql/User'),
     bcrypt          = require('bcrypt');
