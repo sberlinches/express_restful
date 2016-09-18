@@ -2,7 +2,7 @@ var bcrypt = require('bcrypt');
 
 module.exports = function(sequelize, DataTypes) {
 
-    var User = sequelize.define('user', {
+    const User = sequelize.define('user', {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
@@ -114,7 +114,7 @@ module.exports = function(sequelize, DataTypes) {
         }
     }, {
         scopes: {
-          activeUsers: { where: { deletedAt: null } }
+            activeUsers: { where: { deletedAt: null } }
         },
         getterMethods: {},
         setterMethods: {
@@ -131,24 +131,9 @@ module.exports = function(sequelize, DataTypes) {
                 this.setDataValue('lastName', (value != null)? value.capitalize(): value);
             }
         },
-        classMethods: {
-            validPassword: function(password, hash, done, user) {
-                bcrypt.compare(password, hash, function(error, isMatch){
-                    if (error) console.log(error);
-                    if (isMatch) {
-                        return done(null, user);
-                    } else {
-                        return done(null, false);
-                    }
-                });
-            },
-            generateHash: function(password) {
-                return bcrypt.hashSync(password, 10);
-            }
-        },
         hooks: {
             afterValidate: function(user, options) {
-                if(user.password) user.password = this.generateHash(user.password);
+                if(user.password) user.password = bcrypt.hashSync(user.password, 10);
             }
         }
     });

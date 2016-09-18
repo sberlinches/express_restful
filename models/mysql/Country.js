@@ -1,6 +1,6 @@
 module.exports = function(sequelize, DataTypes) {
 
-    var Country = sequelize.define('country', {
+    const Country = sequelize.define('country', {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
