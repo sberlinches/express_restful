@@ -1,10 +1,13 @@
-var express = require('express'),
-    router  = express.Router();
+var express         = require('express'),
+    router          = express.Router(),
+    isAuthenticated = require('../middlewares/isAuthenticated');
 
-router.get('/', function(request, result) {
-    result.send({ message: 'Greetings' });
-});
+router.route('/')
+    .get(isAuthenticated, function(request, response) {
+        response.status(200).json({ data: 'Greetings human!' });
+    });
 
+router.use(require('./auth'));
 router.use(require('./user'));
 router.use(require('./city'));
 router.use(require('./state'));
