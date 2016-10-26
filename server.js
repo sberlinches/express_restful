@@ -21,8 +21,8 @@ app.use(require('./controllers'));
 
 // Start the server
 https.createServer({
-        key: fs.readFileSync('../../../ssl/private.key'),
-        cert: fs.readFileSync('../../../ssl/certificate.pem')
+        key: fs.readFileSync('../../../ssl/key.pem'),
+        cert: fs.readFileSync('../../../ssl/cert.pem')
     }, app)
     .listen(port, function () {
         console.log('Secure Server listening on port ' + port);
