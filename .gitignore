@@ -5,6 +5,8 @@
 /.idea
 
 # misc
+helpers/*.js
+helpers/*.js.map
 npm-debug.log
 
 #System Files
