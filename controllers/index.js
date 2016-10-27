@@ -1,10 +1,14 @@
 var express         = require('express'),
     router          = express.Router(),
-    isAuthenticated = require('../middlewares/is-authenticated');
+    isAuthenticated = require('../middlewares/is-authenticated'),
+    ResponseHelper  = require('../helpers/response.helper'),
+    res;
 
 router.route('/')
     .get(isAuthenticated, function(request, response) {
-        response.status(200).json({ data: 'Greetings human!' });
+        var responseHelper = new ResponseHelper('/', 'get');
+        res = responseHelper.getResponse('ok', data);
+        return response.status(res.status).json(res.body);
     });
 
 router.use(require('./auth'));

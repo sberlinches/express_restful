@@ -2,48 +2,61 @@ var express         = require('express'),
     router          = express.Router(),
     isAuthenticated = require('../middlewares/is-authenticated'),
     sequelize       = require('../models/mysql'),
+    ResponseHelper  = require('../helpers/response.helper'),
     State           = sequelize.import('../models/mysql/State'),
-    City            = sequelize.import('../models/mysql/City');
+    City            = sequelize.import('../models/mysql/City'),
+    res;
 
 router.route('/states')
     .get(isAuthenticated, function(request, response) {
 
+        var responseHelper = new ResponseHelper('/states', 'get');
+
         State.findAll()
-            .then(function(states) {
-                response.status(200).json({ data: states });
+            .then(function(data) {
+                res = responseHelper.getResponse('ok', data);
+                return response.status(res.status).json(res.body);
             })
             .catch(function(error) {
-                response.status(400).json({ error: error });
+                res = responseHelper.getResponse('db_error', error);
+                return response.status(res.status).json(res.body);
             });
     });
 
 router.route('/states/:state_id')
     .get(isAuthenticated, function(request, response) {
 
-        var id = request.params.state_id;
+        var stateId = request.params.state_id;
+        var responseHelper = new ResponseHelper('/states/' + stateId, 'get');
 
-        State.findById(id)
+        State.findById(stateId)
             .then(function(data) {
-                response.status(200).json({ data: data });
+                res = responseHelper.getResponse('ok', data);
+                return response.status(res.status).json(res.body);
             })
             .catch(function(error) {
-                response.status(400).json({ error: error });
+                res = responseHelper.getResponse('db_error', error);
+                return response.status(res.status).json(res.body);
             });
     });
 
 router.route('/states/:state_id/cities')
     .get(isAuthenticated, function(request, response) {
 
+        var stateId = request.params.state_id;
+        var responseHelper = new ResponseHelper('/states/' + stateId + '/cities', 'get');
         var options = {
-            where: { stateId: request.params.state_id }
+            where: { stateId: stateId }
         };
 
         City.findAll(options)
             .then(function(data) {
-                response.status(200).json({ data: data });
+                res = responseHelper.getResponse('ok', data);
+                return response.status(res.status).json(res.body);
             })
             .catch(function(error) {
-                response.status(400).json({ error: error });
+                res = responseHelper.getResponse('db_error', error);
+                return response.status(res.status).json(res.body);
             });
     });
 
