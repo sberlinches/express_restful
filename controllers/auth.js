@@ -10,7 +10,7 @@ var express         = require('express'),
 router.route('/auth/login')
     .post(isAuthenticated, function(request, response) {
 
-        var responseHelper = new ResponseHelper('/auth/login', 'post');
+        var responseHelper = new ResponseHelper(request);
 
         if(!('username' in request.body) || !('password' in request.body)) {
             res = responseHelper.getResponse('insufficient_parameters');

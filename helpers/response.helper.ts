@@ -1,13 +1,14 @@
 // http://jsonapi.org/
 class ResponseHelper {
 
-    private route: string;
+    private url: string;
     private method: string;
     private id: string;
     private status: number;
     private response = { status: 0, body: {} };
     private bodyData = { data: {} };
-    private bodyErrors = { errors: { id: '', status: '', code: '', title: '' } };
+    private bodyErrors = { errors: [] };
+    private bodyError = { id: '', status: '', code: '', title: '' };
     private codes = {
         'ok': {
             status: 200,
@@ -25,6 +26,10 @@ class ResponseHelper {
             status: 400,
             title: 'Data not provided'
         },
+        'not_found': {
+            status: 404,
+            title: 'Not found'
+        },
         'bad_username': {
             status: 422,
             title: 'Bad username'
@@ -33,6 +38,10 @@ class ResponseHelper {
             status: 422,
             title: 'Bad password'
         },
+        'internal_server_error': {
+            status: 500,
+            title: 'Internal server error'
+        },
         'db_error': {
             status: 500,
             title: 'Data base error'
@@ -40,48 +49,49 @@ class ResponseHelper {
     }; // TODO: External config file
 
     constructor(
-        private Route: string,
-        private Method: string
+        private Request: any
     ) {
-        this.route = Route;
-        this.method = Method;
-        this.id = this.prepareId();
+        this.url = Request.url;
+        this.method = Request.method;
+        this.id = this.generateId();
     }
 
-    public getResponse(code: string, data?: any) {
+    public getResponse(code: string, data?: any):any {
         this.status = this.codes[code].status;
         let body;
 
         if(this.status >= 200 && this.status < 300) {
             body = this.prepareBodyData(data);
         } else {
-            body = this.prepareBodyError(code, data);
+            body = this.prepareBodyError(code);
         }
 
         return this.prepareResponse(body);
     }
 
-    private prepareBodyData(data: any) {
+    private prepareBodyData(data?: any):any {
         this.bodyData.data = data;
         return this.bodyData;
     }
 
-    private prepareBodyError(code: string, data: any) {
-        this.bodyErrors.errors.id = this.id;
-        this.bodyErrors.errors.status = this.status.toString();
-        this.bodyErrors.errors.code = code;
-        this.bodyErrors.errors.title = this.codes[code].title;
+    private prepareBodyError(code: string):any {
+        this.bodyError.id = this.id;
+        this.bodyError.status = this.status.toString();
+        this.bodyError.code = code;
+        this.bodyError.title = this.codes[code].title;
+        this.bodyErrors.errors.push(this.bodyError);
+
         return this.bodyErrors;
     }
 
-    private prepareResponse(body: any) {
+    private prepareResponse(body: any):any {
         this.response.status = this.status;
         this.response.body = body;
         return this.response;
     }
 
-    private prepareId():string {
-        let pieces = this.route.split('/');
+    private generateId():string {
+        let pieces = this.url.split('/');
         pieces.shift();
         pieces.push(this.method);
         return pieces.join('_');

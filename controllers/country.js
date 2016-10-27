@@ -10,7 +10,7 @@ var express         = require('express'),
 router.route('/countries')
     .get(isAuthenticated, function(request, response) {
 
-        var responseHelper = new ResponseHelper('/countries', 'get');
+        var responseHelper = new ResponseHelper(request);
 
         Country.findAll()
             .then(function(data) {
@@ -27,7 +27,7 @@ router.route('/countries/:country_id')
     .get(isAuthenticated, function(request, response) {
 
         var countryId = request.params.country_id;
-        var responseHelper = new ResponseHelper('/countries/' + countryId, 'get');
+        var responseHelper = new ResponseHelper(request);
 
         Country.findById(countryId)
             .then(function(data) {
@@ -44,7 +44,7 @@ router.route('/countries/:country_id/states')
     .get(isAuthenticated, function(request, response) {
 
         var countryId = request.params.country_id;
-        var responseHelper = new ResponseHelper('/countries/' + countryId + '/states', 'get');
+        var responseHelper = new ResponseHelper(request);
         var options = {
             where: { countryId: countryId }
         };

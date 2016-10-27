@@ -22,7 +22,7 @@ var fields = [
 router.route('/users')
     .get(isAuthenticated, function(request, response) {
 
-        var responseHelper = new ResponseHelper('/users', 'get');
+        var responseHelper = new ResponseHelper(request);
         var options = {
             attributes: { exclude: ['password'] },
             include: [{ all: true }]
@@ -40,7 +40,7 @@ router.route('/users')
     })
     .post(isAuthenticated, function(request, response) {
 
-        var responseHelper = new ResponseHelper('/users', 'post');
+        var responseHelper = new ResponseHelper(request);
 
         if(Object.keys(request.body).length) {
 
@@ -68,7 +68,7 @@ router.route('/users/:user_id')
     .get(isAuthenticated, function(request, response) {
 
         var userId = request.params.user_id;
-        var responseHelper = new ResponseHelper('/users/' + userId, 'get');
+        var responseHelper = new ResponseHelper(request);
         var options = {
             attributes: { exclude: ['password'] },
             include: [{ all: true }]
@@ -95,7 +95,7 @@ router.route('/users/:user_id')
     .patch(isAuthenticated, function(request, response) {
 
         var userId = request.params.user_id;
-        var responseHelper = new ResponseHelper('/users/' + userId, 'patch');
+        var responseHelper = new ResponseHelper(request);
 
         if(Object.keys(request.body).length) {
 
@@ -122,7 +122,7 @@ router.route('/users/:user_id')
     .delete(isAuthenticated, function(request, response) {
 
         var userId = request.params.user_id;
-        var responseHelper = new ResponseHelper('/users/' + userId, 'delete');
+        var responseHelper = new ResponseHelper(request);
         var options = {
             where: { id: userId }
         };

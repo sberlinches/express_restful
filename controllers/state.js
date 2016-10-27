@@ -10,7 +10,7 @@ var express         = require('express'),
 router.route('/states')
     .get(isAuthenticated, function(request, response) {
 
-        var responseHelper = new ResponseHelper('/states', 'get');
+        var responseHelper = new ResponseHelper(request);
 
         State.findAll()
             .then(function(data) {
@@ -27,7 +27,7 @@ router.route('/states/:state_id')
     .get(isAuthenticated, function(request, response) {
 
         var stateId = request.params.state_id;
-        var responseHelper = new ResponseHelper('/states/' + stateId, 'get');
+        var responseHelper = new ResponseHelper(request);
 
         State.findById(stateId)
             .then(function(data) {
@@ -44,7 +44,7 @@ router.route('/states/:state_id/cities')
     .get(isAuthenticated, function(request, response) {
 
         var stateId = request.params.state_id;
-        var responseHelper = new ResponseHelper('/states/' + stateId + '/cities', 'get');
+        var responseHelper = new ResponseHelper(request);
         var options = {
             where: { stateId: stateId }
         };

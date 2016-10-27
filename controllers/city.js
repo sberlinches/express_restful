@@ -9,7 +9,7 @@ var express         = require('express'),
 router.route('/cities')
     .get(isAuthenticated, function(request, response) {
 
-        var responseHelper = new ResponseHelper('/cities', 'get');
+        var responseHelper = new ResponseHelper(request);
 
         City.findAll()
             .then(function(data) {
@@ -26,7 +26,7 @@ router.route('/cities/:city_id')
     .get(isAuthenticated, function(request, response) {
 
         var cityId = request.params.city_id;
-        var responseHelper = new ResponseHelper('/cities/' + cityId, 'get');
+        var responseHelper = new ResponseHelper(request);
 
         City.findById(cityId)
             .then(function(data) {
