@@ -13,11 +13,15 @@
   },
   "dependencies": {
     "express": "4.14.0",
+    "express-session": "1.14.2",
+    "express-ws": "2.0.0",
     "body-parser": "1.15.2",
     "sequelize": "4.0.0-2",
     "mysql2": "v1.0.0",
+    "connect-redis": "3.1.0",
     "bcrypt": "0.8.7",
-    "cors": "2.8.1"
+    "cors": "2.8.1",
+    "compression": "1.6.2"
   },
   "devDependencies": {
     "typescript": "^2.0.6"

@@ -1,29 +1,31 @@
-require('./extensions.js');
+"use strict";
 
-var https       = require('https'),
-    fs          = require('fs'),
-    express    	= require('express'),
-    bodyParser 	= require('body-parser'),
-    cors        = require('cors'),
-    app        	= express(),
-    port        = 3443;
+require('./functions');
 
-// bodyParser config
-app.use(bodyParser.urlencoded({ extended: true }));
+const config        = require('./config'),
+    express    	    = require('express'),
+    app        	    = express(),
+    https           = require('https'),
+    bodyParser 	    = require('body-parser'),
+    cors            = require('cors'),
+    compression     = require('compression'),
+    session         = require('express-session'),
+    RedisStore      = require('connect-redis')(session),
+    fs              = require('fs'),
+    key             = fs.readFileSync(config.keyPath),
+    cert            = fs.readFileSync(config.certPath),
+    server          = https.createServer({ key: key, cert: cert }, app),
+    expressWs       = require('express-ws')(app, server);
+
+config.session.store = new RedisStore(config.redis);
+
 app.use(bodyParser.json());
-app.use(bodyParser.raw({ type: 'application/vnd.api+json' }));
-
-// CORS
+app.use(bodyParser.urlencoded(config.bodyParser.urlencoded));
+app.use(session(config.session));
 app.use(cors());
-
-// Routes
 app.use(require('./controllers'));
+if(config.isProduction) app.use(compression());
 
-// Start the server
-https.createServer({
-        key: fs.readFileSync('../../../ssl/key.pem'),
-        cert: fs.readFileSync('../../../ssl/cert.pem')
-    }, app)
-    .listen(port, function () {
-        console.log('Secure Server listening on port ' + port);
-    });
+server.listen(config.node.port, config.node.host, function() {
+    console.log('Server available at https://%s', config.node.host + ':' + config.node.port);
+});

@@ -1,3 +1,5 @@
+"use strict";
+
 var express         = require('express'),
     router          = express.Router(),
     isAuthenticated = require('../middlewares/is-authenticated'),
@@ -10,5 +12,12 @@ router.route('/')
         res = responseHelper.getResponse('ok', 'Greetings');
         return response.status(res.status).json(res.body);
     });
+
+// Test purposes
+router.ws('/', isAuthenticated, function(ws, request) {
+    ws.on('message', function(data) {
+        console.log(data.toString());
+    });
+});
 
 module.exports = router;
